@@ -4,7 +4,7 @@
 
 const char* ssid = "Panda"; // Your WiFi SSID
 const char* password = "PulsePioneers1!";
-const char* serverAddress = "192.168.68.101"; // IP address of the TCP server
+const char* serverAddress = "172.20.10.5"; // IP address of the TCP server
 const uint16_t serverPort = 5001; // TCP server port
 
 WiFiClient client;
