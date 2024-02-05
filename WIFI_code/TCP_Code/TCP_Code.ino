@@ -2,8 +2,8 @@
 #include <WiFiClient.h>
 #include <Arduino.h>
 
-const char* ssid = "Mango"; // Your WiFi SSID
-const char* password = "YashicaMat1!";
+const char* ssid = "Panda"; // Your WiFi SSID
+const char* password = "PulsePioneers1!";
 const char* serverAddress = "192.168.68.101"; // IP address of the TCP server
 const uint16_t serverPort = 5001; // TCP server port
 
