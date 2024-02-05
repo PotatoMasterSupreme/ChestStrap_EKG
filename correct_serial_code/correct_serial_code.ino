@@ -1,7 +1,7 @@
 #include <Arduino.h>
 
 const int sampleRate = 250; // Sample rate in Hz
-const int bufferSize = 7500; // 30 seconds of data at 250 Hz
+const int bufferSize = 15000; // 30 seconds of data at 250 Hz
 float buffer[bufferSize]; // Circular buffer to hold data
 int bufferIndex = 0; // Current index in the buffer
 bool activationFlag = false; // Flag to indicate activation
