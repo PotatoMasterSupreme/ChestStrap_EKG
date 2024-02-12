@@ -30,26 +30,25 @@ def plot_waveform(t, waveform):
     :param t: Time stamps for the waveform.
     :param waveform: The generated pulse waveform.
     """
-    # Create a subplot with 1 row and 2 columns
+    # Create a subplot with 2 row and 1 columns
     fig, axs = plt.subplots(2, 1)
     
     # Plot the entire waveform on the first subplot
-    axs[0].plot(t, waveform, label='Pulse Waveform', color='blue')
-    axs[0].set_title('Generated Pulse Waveform Over 1 Minute')
+    axs[0].plot(t, waveform, color='blue')
+    axs[0].set_title('Simulated Pulse Waveform')
     axs[0].set_xlabel('Time (seconds)')
-    axs[0].set_ylabel('Waveform Amplitude')
+    axs[0].set_ylabel('Amplitude')
     axs[0].grid(True)
-    axs[0].legend()
     
     # Find the index where t=5 seconds to plot the first 5 seconds on the second subplot
     idx_5_sec = np.where(t <= 5)[0][-1]
-    axs[1].plot(t[:idx_5_sec+1], waveform[:idx_5_sec+1], label='First 5 Seconds', color='red')
-    axs[1].set_title('Generated Pulse Waveform First 5 Seconds')
+    axs[1].plot(t[:idx_5_sec+1], waveform[:idx_5_sec+1], color='red')
     axs[1].set_xlabel('Time (seconds)')
-    axs[1].set_ylabel('Waveform Amplitude')
+    axs[1].set_ylabel('Amplitude')
+    axs[1].set_title('First 5 Seconds')
     axs[1].grid(True)
-    axs[1].legend()
-    
+
+    plt.tight_layout()
     # Show the plot
     plt.show()
 
