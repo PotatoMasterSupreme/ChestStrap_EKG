@@ -34,7 +34,7 @@ lowcut = 0.5  # Low cutoff frequency, Hz
 highcut = 50.0  # High cutoff frequency, Hz
 
 # Apply the bandpass filter
-filtered_data = butter_bandpass_filter(data['Value'], lowcut, highcut, fs, order=8)
+filtered_data = butter_bandpass_filter(data['Value'], lowcut, highcut, fs, order=5)
 
 # Plotting the original and filtered EKG data
 fig, axs = plt.subplots(2, 2, figsize=(15, 10))  # 2 rows, 2 columns
