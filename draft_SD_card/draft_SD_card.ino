@@ -68,8 +68,9 @@ void loop() {
 
   // After activation, wait for additional 30 seconds before sending data
   if (activationFlag && (millis() - activationTime > postActivationDuration)) {
-    sendBufferOverTCP(); // Send data over TCP
     writeBufferToSDCard();
+    sendBufferOverTCP(); // Send data over TCP
+    
     activationFlag = false;
     digitalWrite(LED_BUILTIN, LOW); // Turn off LED after data sending
     Serial.println("Data sent over TCP.");
@@ -106,20 +107,44 @@ void sendBufferOverTCP() {
 }
 
 void writeBufferToSDCard() {
-  String filename = "/ekgData_" + String(fileIndex) + ".bin"; // Generate unique filename
+  // Ensure SD card is initialized only once in setup() and not here to avoid re-initialization issues
+
+  // Generate a unique filename for the data
+  String filename = "/ekgData_" + String(fileIndex) + ".bin";
+  
+  // Open the file for writing
   File file = SD.open(filename.c_str(), FILE_WRITE);
   if (!file) {
-    Serial.println("Failed to open file for writing");
-    return;
+    Serial.println("Failed to open file for writing: " + filename);
+    return; // Exit the function if file cannot be opened
   }
 
-  file.write((const byte*)buffer, bufferSize * sizeof(float));
-  file.close();
-  Serial.println("Buffer written to SD card: " + filename);
+  Serial.println("Writing to SD card: " + filename);
 
-  fileIndex++; // Increment file index for the next save
-  preferences.putUInt("fileIndex", fileIndex); // Store the updated file index in non-volatile memory
+  // Attempt to write the entire buffer to the SD card
+  size_t bytesWritten = file.write((const byte*)buffer, bufferSize * sizeof(float));
+  
+  if (bytesWritten != bufferSize * sizeof(float)) {
+    // Not all bytes were written successfully
+    Serial.print("Failed to write the entire buffer. Written ");
+    Serial.print(bytesWritten);
+    Serial.print(" of ");
+    Serial.print(bufferSize * sizeof(float));
+    Serial.println(" bytes.");
+  } else {
+    // Success
+    Serial.println("All data successfully written to SD card.");
+  }
+
+  file.close(); // Make sure to close the file to finalize the write operation
+
+  // Update the file index for the next data write operation
+  fileIndex++;
+  preferences.putUInt("fileIndex", fileIndex);
+
+  Serial.println("Buffer written to SD card and file closed.");
 }
+
 
 float generatePulseWaveform() {
   // Simulate pulse waveform with a varying sine wave to mimic heartbeats
