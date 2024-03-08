@@ -1,4 +1,4 @@
-function processAllEKGDataInDirectory()
+function test()
     % Let the user select a directory
     folderPath = uigetdir;
     referenceSignal = readmatrix('reference.csv');
@@ -56,7 +56,12 @@ function [ekgFiltered, snrBefore, snrAfter, rmseBefore, rmseAfter] = processEKGD
     
     % Signal quality assessment after filtering
     [rmseAfter, snrAfter] = assessSignalQuality(ekgFiltered, referenceSignal);
-    
+    % At the end of the processEKGData function, before plotting:
+    [qrsPeaks, peakIndices] = detectQRS_PanTompkins(ekgFiltered, Fs_new);
+
+
+
+
     % Optional: Plot signals for visual comparison
     figure;
     subplot(2, 1, 1);
@@ -64,6 +69,9 @@ function [ekgFiltered, snrBefore, snrAfter, rmseBefore, rmseAfter] = processEKGD
     title('Raw EKG Signal');
     subplot(2, 1, 2);
     plot(ekgFiltered);
+    hold on;
+    plot(peakIndices, ekgFiltered(peakIndices), 'ro', 'MarkerFaceColor', 'r');
+    title('Filtered EKG Signal with Detected QRS Complexes');
     title('Filtered EKG Signal');
 end
 
@@ -97,3 +105,49 @@ function ekgFiltered = removeUnwantedFrequencies(signal, Fs)
     ekgFiltered = filtfilt(lpFilt, signal);
 end
 
+function [qrsPeaks, peakIndices] = detectQRS_PanTompkins(signal, Fs)
+    % Apply bandpass filter
+    bpFilt = designfilt('bandpassiir', ...
+                        'FilterOrder', 12, ...
+                        'HalfPowerFrequency1', 5, ...
+                        'HalfPowerFrequency2', 15, ...
+                        'SampleRate', Fs);
+    filteredSignal = filtfilt(bpFilt, signal);
+    
+    % Differentiation
+    diffSignal = [0; diff(filteredSignal)];
+    
+    % Squaring
+    squaredSignal = diffSignal .^ 2;
+    
+    % Moving window integration
+    windowWidth = round(0.150 * Fs); % 150ms window width
+    integratorOutput = movmean(squaredSignal, windowWidth);
+    
+    % Adaptive thresholding for peak detection
+    [qrsPeaks, peakIndices] = adaptiveThreshold(integratorOutput, Fs);
+end
+
+function [qrsPeaks, peakIndices] = adaptiveThreshold(signal, Fs)
+    peakIndices = [];
+    qrsPeaks = [];
+    threshold = mean(signal) * 0.5; % Setting initial threshold
+    
+    % Detect peaks above threshold
+    for i = 1:length(signal)
+        if signal(i) > threshold
+            qrsPeaks = [qrsPeaks; signal(i)];
+            peakIndices = [peakIndices; i];
+            
+            % Adjust the threshold based on recent peak
+            threshold = 0.6 * signal(i) + 0.4 * threshold;
+        end
+    end
+    
+    % Removing close peaks to handle one QRS complex at a time
+    minDistance = round(0.2 * Fs); % Minimum distance between QRS complexes
+    diffs = diff(peakIndices);
+    validDiffs = [true; diffs > minDistance]; % First index is always valid
+    peakIndices = peakIndices(validDiffs);
+    qrsPeaks = qrsPeaks(validDiffs);
+end

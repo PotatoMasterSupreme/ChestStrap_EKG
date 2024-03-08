@@ -70,3 +70,52 @@ function snrValue = calculateSNR(signal)
     snrValue = snr(signalClean, noise);
 end
 
+function [qrsPeaks, peakIndices] = detectQRS_PanTompkins(signal, Fs)
+    % Bandpass filter to emphasize QRS complex
+    Wp = [5 15] / (Fs / 2); % Passband: 5-15 Hz
+    Ws = [0.5 20] / (Fs / 2); % Stopband to ensure sharp transition
+    [n, Wn] = buttord(Wp, Ws, 3, 40); % Order and natural frequency
+    [b, a] = butter(n, Wn);
+    filteredSignal = filtfilt(b, a, signal);
+    
+    % Differentiate to provide the QRS slope information
+    diffSignal = [0; diff(filteredSignal)];
+    
+    % Squaring to make all data points positive and emphasize higher slopes
+    squaredSignal = diffSignal .^ 2;
+    
+    % Moving Window Integration
+    windowWidth = round(0.150 * Fs); % 150ms window width
+    integratorOutput = movmean(squaredSignal, windowWidth);
+    
+    % Adaptive thresholding and peak detection
+    [qrsPeaks, peakIndices] = adaptiveThreshold(integratorOutput, Fs);
+    
+    % Plotting the results
+    figure;
+    plot(signal);
+    hold on;
+    plot(peakIndices, signal(peakIndices), 'rv', 'MarkerFaceColor', 'r');
+    title('Detected QRS Complexes using Pan-Tompkins');
+    xlabel('Sample Number');
+    ylabel('Amplitude');
+    hold off;
+end
+
+function [qrsPeaks, peakIndices] = adaptiveThreshold(signal, Fs)
+    % Initialize
+    peakIndices = [];
+    qrsPeaks = [];
+    lag = 0.25 * Fs; % Lagging for the algorithm to stabilize
+    threshold = max(signal(1:lag)) * 0.5; % Initial threshold
+    
+    % Find peaks above threshold
+    for i = 1:length(signal)
+        if (signal(i) > threshold) && (i > (lag + windowWidth))
+            qrsPeaks = [qrsPeaks; signal(i)];
+            peakIndices = [peakIndices; i];
+            threshold = 0.6 * signal(i) + 0.4 * threshold; % Adjust threshold
+            i = i + windowWidth; % Skip the window to avoid multiple detections
+        end
+    end
+end

@@ -1,4 +1,4 @@
-function processAllEKGDataInDirectory()
+function processALLEKGData()
     % Let the user select a directory
     folderPath = uigetdir;
     referenceSignal = readmatrix('reference.csv');
