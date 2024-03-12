@@ -23,8 +23,8 @@ function processALLEKGData()
         [ekgFiltered, snrBefore, snrAfter, rmseBefore, rmseAfter] = processEKGData(originalCsvFilePath, referenceSignal, 250, 250);
         
         % Save the filtered signal
-        writematrix(ekgFiltered, filteredCsvFilePath);
-        fprintf('Filtered EKG data saved to: %s\n', filteredCsvFilePath);
+        % writematrix(ekgFiltered, filteredCsvFilePath);
+        % fprintf('Filtered EKG data saved to: %s\n', filteredCsvFilePath);
         
         % Print out signal quality metrics
         fprintf('RMSE before: %f\n', rmseBefore);
@@ -37,11 +37,13 @@ end
 function [ekgFiltered, snrBefore, snrAfter, rmseBefore, rmseAfter] = processEKGData(csvFilePath, referenceSignal, Fs_original, Fs_new)
     % Load EKG data from a CSV file
     data = readmatrix(csvFilePath);
-    
+    if width(data) == 2
     % Assume EKG signal starts from row 5, column 2 based on your data structure
     ekgSignal = data(5:end, 2);
-    
+    else
+    ekgSignal = data;
     % Apply resampling if necessary (Fs_original ~= Fs_new)
+    end
     if Fs_original ~= Fs_new
         decimationFactor = Fs_original / Fs_new;
         ekgSignal = downsample(ekgSignal, decimationFactor);
@@ -80,19 +82,19 @@ function [rmse, snr] = assessSignalQuality(signal, referenceSignal)
     % Calculate signal and noise power for SNR
     signalPower = mean(signal.^2);
     noisePower = mean((signal - referenceSignal).^2);
-    snr = 10 * log10(signalPower / noisePower);
+    snr = abs(10 * log10(signalPower / noisePower));
 end
 
 
 
 
 function filteredSignal = removeBaselineWander(signal, Fs)
-    hpFilt = designfilt('highpassiir', 'FilterOrder', 5, 'HalfPowerFrequency', 1, 'SampleRate', Fs, 'DesignMethod', 'butter');
+    hpFilt = designfilt('highpassiir', 'FilterOrder', 5, 'HalfPowerFrequency', 0.6, 'SampleRate', Fs, 'DesignMethod', 'butter');
     filteredSignal = filtfilt(hpFilt, signal);
 end
 
 function ekgFiltered = removeUnwantedFrequencies(signal, Fs)
-    cutoff_freq = 20;
+    cutoff_freq = 35;
     lpFilt = designfilt('lowpassiir', 'FilterOrder', 5, 'HalfPowerFrequency', cutoff_freq, 'SampleRate', Fs, 'DesignMethod', 'butter');
     ekgFiltered = filtfilt(lpFilt, signal);
 end

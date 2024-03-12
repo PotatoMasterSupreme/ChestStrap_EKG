@@ -1,6 +1,6 @@
 function processEKGData(csvFilePath)
     % Load EKG data from a CSV file
-    data = readmatrix("DataFile");
+    data = readmatrix("DataFileTest");
     ekgSignal = data(:, 1); % Assuming the EKG signal is in the first column
     
     % Remove baseline wander

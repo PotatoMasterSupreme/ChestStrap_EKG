@@ -1,6 +1,6 @@
 function processEKGDataMyDaq(csvFilePath)
     % Load EKG data from a CSV file
-    data1 = readmatrix("Recording 2 (250hz).csv");
+    data1 = readmatrix("Chest-Strap_1.csv");
     % Assuming your signal is stored in the variable 'originalSignal'
     % and your original sampling rate is stored in 'Fs_original'
 

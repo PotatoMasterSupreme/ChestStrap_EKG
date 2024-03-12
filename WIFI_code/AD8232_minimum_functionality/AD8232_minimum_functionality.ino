@@ -3,7 +3,7 @@
 
 const char* ssid = "Mango"; // Your WiFi SSID
 const char* password = "YashicaMat1!"; // Your WiFi password
-const char* serverAddress = "192.168.68.118"; // IP address of the TCP server
+const char* serverAddress = "192.168.68.103"; // IP address of the TCP server
 const uint16_t serverPort = 5001; // TCP server port
 const int OUTPUT_PIN = 26; // AD8232 output connected to GPIO 26 (ADC0) on the Pi Pico W
 
@@ -19,7 +19,7 @@ const long postActivationDuration = 30000; // 30 seconds after activation
 unsigned long sampleTime = millis(); // Initialize sample time
 
 // Button setup
-const int buttonPin = 18; // The pin number for the button, using GP18
+const int buttonPin = 12; // The pin number for the button, using GP18
 
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);

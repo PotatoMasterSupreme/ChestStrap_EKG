@@ -95,7 +95,7 @@ end
 
 
 function filteredSignal = removeBaselineWander(signal, Fs)
-    hpFilt = designfilt('highpassiir', 'FilterOrder', 5, 'HalfPowerFrequency', 1, 'SampleRate', Fs, 'DesignMethod', 'butter');
+    hpFilt = designfilt('highpassiir', 'FilterOrder', 5, 'HalfPowerFrequency', 5, 'SampleRate', Fs, 'DesignMethod', 'butter');
     filteredSignal = filtfilt(hpFilt, signal);
 end
 
