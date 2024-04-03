@@ -87,7 +87,7 @@ void loop() {
     } else {
       blinkLED(5, 300); // Blink 5 times slowly to indicate failure
     }
-    WriteBufferToSDCard() 
+    WriteBufferToSDCard(); // local backup 
     activationFlag = false;
     bufferIndex = 0; // Reset buffer index for the next activation
   }
