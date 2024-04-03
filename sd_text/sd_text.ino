@@ -7,9 +7,6 @@
 #define MISO_PIN  19 // DATA 0/POCI (Peripheral's SDO)
 #define SCK_PIN   18 // CLK/SCK
 
-// Define an array of numbers to write to the SD card
-int numbers[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-
 void setup() {
   Serial.begin(115200);
   while (!Serial); // Wait for the Serial monitor to open
@@ -25,19 +22,16 @@ void setup() {
   Serial.println("SD Card initialized successfully.");
 
   // Open file for writing
-  File file = SD.open("/numbers.txt", FILE_WRITE);
+  File file = SD.open("/hello.txt", FILE_WRITE);
   if (!file) {
     Serial.println("Failed to open file for writing");
     return;
   }
   
-  // Write array elements to the file as text
-  for (int i = 0; i < 10; i++) {
-    file.println(numbers[i]);
-  }
-  
-  file.close(); // Make sure to close the file when you're done
-  Serial.println("Number array written to SD card.");
+  // Write to file
+  file.println("Hello, World!");
+  file.close();
+  Serial.println("Write complete");
 }
 
 void loop() {

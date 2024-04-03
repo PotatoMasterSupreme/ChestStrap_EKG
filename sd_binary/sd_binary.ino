@@ -24,20 +24,19 @@ void setup() {
   }
   Serial.println("SD Card initialized successfully.");
 
-  // Open file for writing
-  File file = SD.open("/numbers.txt", FILE_WRITE);
+  // Open file for writing in binary mode
+  File file = SD.open("/numbers.bin", FILE_WRITE);
   if (!file) {
     Serial.println("Failed to open file for writing");
     return;
   }
   
-  // Write array elements to the file as text
-  for (int i = 0; i < 10; i++) {
-    file.println(numbers[i]);
-  }
+  // Write the entire array to the file in one operation as binary
+  file.write((uint8_t*)numbers, sizeof(numbers));
   
-  file.close(); // Make sure to close the file when you're done
-  Serial.println("Number array written to SD card.");
+  // Close the file when you're done
+  file.close();
+  Serial.println("Number array written to SD card as binary.");
 }
 
 void loop() {
