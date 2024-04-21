@@ -1,5 +1,5 @@
 % Define UDP port and create UDP object
-udpPort = 5001;
+udpPort = 5002;
 u = udpport("LocalPort", udpPort);
 
 
@@ -7,7 +7,7 @@ u = udpport("LocalPort", udpPort);
 
 fig = figure;
 ax = axes(fig);
-ylim(ax, [-1, 1]); % Adjust based on your data range
+ylim(ax, [0, 4000]); % Adjust based on your data range
 lineHandle = animatedline(ax, 'Color', 'r');
 xlabel(ax, 'Time');
 ylabel(ax, 'Data');
