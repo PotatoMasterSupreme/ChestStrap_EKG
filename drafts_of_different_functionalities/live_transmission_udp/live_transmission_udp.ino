@@ -2,8 +2,8 @@
 #include <WiFiUDP.h>
 #include <Arduino.h>
 
-const char* ssid = "Mango"; // Your WiFi SSID
-const char* password = "YashicaMat1!";
+const char* ssid = ""; // Your WiFi SSID
+const char* password = "";
 const char* serverAddress = "192.168.68.124"; // IP address of the UDP server
 const uint16_t serverPort = 5001; // UDP server port
 unsigned long sampleTime = millis(); // Initialize sample time
