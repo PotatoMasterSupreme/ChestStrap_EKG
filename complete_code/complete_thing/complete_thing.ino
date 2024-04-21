@@ -9,8 +9,8 @@
 WiFiUDP udp;
 WiFiClient client;
 
-const char* ssid = "Mango"; // Your WiFi SSID
-const char* password = "YashicaMat1!"; // Your WiFi password
+const char* ssid = "Panda"; // Your WiFi SSID
+const char* password = "PulsePioneers1!"; // Your WiFi password
 const char* serverAddress = "192.168.68.124"; // IP address of the TCP server
 const uint16_t serverPort = 5001; // TCP server port
 const int OUTPUT_PIN = 34; // AD8232 output connected to GPIO 26 (ADC0) on the Pi Pico W
