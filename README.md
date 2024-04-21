@@ -1,15 +1,14 @@
-
 # EKG Monitoring System
 
 This repository contains the source code for a complete EKG monitoring system which includes device firmware, data transmission over TCP and UDP, and EKG signal processing. This project is designed to capture EKG signals, transmit them over the network, and process the signals for medical analysis.
 
 ## Project Structure
 
-- `/complete_code`: Contains the source code that runs on the ESP32 device for capturing EKG data and sending it over TCP/UDP.
-- `/Server_complete.py`: Python scripts for setting up a TCP server to receive and process EKG data.
-- `/live_read.m`: MATLAB scripts for receiving EKG data over UDP and plotting it in real-time.
-- `/EKGFiltering`: Contains MATLAB and Python scripts for filtering and processing EKG signals.
-- `/drafts_of_different_functionalities`: Example scripts and usage scenarios.
+- **Device Code**: [Complete Thing](https://github.com/PotatoMasterSupreme/ChestStrap_EKG/tree/main/complete_code/complete_thing) - Contains the source code that runs on the ESP32 device for capturing EKG data and sending it over TCP/UDP.
+- **TCP Server**: [Server Complete](https://github.com/PotatoMasterSupreme/ChestStrap_EKG/blob/main/complete_code/Server_complete.py) - Python script for setting up a TCP server to receive and process EKG data.
+- **MATLAB UDP Script**: [Live Read](https://github.com/PotatoMasterSupreme/ChestStrap_EKG/blob/main/complete_code/live_read.m) - MATLAB scripts for receiving EKG data over UDP and plotting it in real-time.
+- **Signal Processing**: [EKG Filtering](https://github.com/yourusername/ekg-monitoring-system/tree/main/EKGFiltering) - Contains MATLAB and Python scripts for filtering and processing EKG signals.
+- **Examples**: [Drafts of Different Functionalities](https://github.com/PotatoMasterSupreme/ChestStrap_EKG/tree/main/drafts_of_different_functionalities) - Example scripts and usage scenarios.
 
 ## Features
 
@@ -26,6 +25,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 - ESP32 development board
 - MATLAB (R2020b or later recommended for UDP functionality)
+
 - Python 3.8 or later
 
 ### Installing
@@ -76,5 +76,5 @@ etc
 
 Contact
 
-For major questions, issues, and collaborations, please contact your.email@example.com.
+For major questions, issues, and collaborations, please contact saifaldeen719@gmail.com.
 
