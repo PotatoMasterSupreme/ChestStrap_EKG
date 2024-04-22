@@ -34,7 +34,8 @@ These instructions will get you a copy of the project up and running on your loc
    ```bash
    git clone https://github.com/PotatoMasterSupreme/ChestStrap_EKG.git
    
-Device Setup:
+### Device Setup:
+Use the arduino ide. Make sure that the correct boards are updated through the manager
 Flash the ESP32 with the firmware located in /DeviceCode.
 Connect the EKG sensor as per the schematics provided in /Documentation.
 Running the TCP Server:
@@ -44,11 +45,11 @@ bash
 Copy code
 python tcp_server.py
 Running the MATLAB UDP Listener:
-Open MATLAB and navigate to /UDPMatlab.
+Open MATLAB and navigate to /live_read.
 Run the script:
 matlab
 Copy code
-udp_listener.m
+live_read.m
 Data Processing:
 Review the /EKGFiltering directory for scripts on processing the data.
 Usage
