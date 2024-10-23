@@ -75,7 +75,7 @@ def start_tcp_server():
     # Listen for incoming connections
     sock.listen(1)
 
-    base_file_path = '/Users/saifnoreldeen/Documents/Arduino/code/DataFileTest'
+    base_file_path = '/Users/saifnoreldeen/Documents/Documents - Saif’s MacBook Air/Arduino/code/DataFileTest'
 
     while True:
         print("\nWaiting for a connection...")
